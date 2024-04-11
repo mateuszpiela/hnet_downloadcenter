@@ -42,15 +42,23 @@ class AppLoginAuthenticator extends AbstractLoginFormAuthenticator
         return new Passport(
             new UserBadge($username),
             new CustomCredentials(function($credentials, User $user) {
-                if($user->getBlocked() == true) {
-                    throw new AccountBlockedException();
+                $isValid = password_verify($credentials, $user->getPassword());
+
+                if(!$isValid) {
+                    throw new BadCredentialsException();
                 }
 
-                if($user->getActive() == false) {
-                    throw new AccountIsNotActiveException();
+                if($isValid) {
+                    if($user->getBlocked() == true) {
+                        throw new AccountBlockedException();
+                    }
+
+                    if($user->getActive() == false) {
+                        throw new AccountIsNotActiveException();
+                    }
                 }
 
-                return new PasswordCredentials($credentials);
+                return $isValid;
             }, $request->getPayload()->getString('password')),
             [
                 new CsrfTokenBadge('authenticate', $request->getPayload()->getString('_csrf_token')),
