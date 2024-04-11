@@ -1,0 +1,5 @@
+landingpage.welcome: Witaj w %app_name%
+landingpage.welcome.withoutparams: Witaj
+landingpage.heading_welcome: "Witaj w centrum pobierania aplikacji/dodatków"
+landingpage.text_about_dcenter: "Tutaj możesz pobrać twoje zlecone projekty wraz z aktualizacjami"
+landingpage.btn: "Zaloguj się"
